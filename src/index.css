@@ -1,1 +1,14 @@
 @import 'tailwindcss';
+
+@layer components {
+  .heading2 {
+    font-size: 1.5rem;
+    padding: 2rem 1rem;
+  }
+  .button {
+    cursor: pointer;
+    outline: none;
+    border: none;
+    background-color: transparent;
+  }
+}
