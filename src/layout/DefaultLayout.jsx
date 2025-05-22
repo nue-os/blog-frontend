@@ -1,7 +1,13 @@
-import React from 'react'
+import { Outlet } from 'react-router-dom'
+import Header from '../components/Header'
 
 const DefaultLayout = () => {
-  return <div>DefaultLayout</div>
+  return (
+    <div className="max-w-[600px] h-screen mx -auto relative overflow-y-auto overflow-x-hidden pb-8">
+      <Header />
+      <Outlet />
+    </div>
+  )
 }
 
 export default DefaultLayout
