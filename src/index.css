@@ -1,14 +1,25 @@
 @import 'tailwindcss';
 
 @layer components {
+  .main {
+    padding: 0 1rem;
+  }
   .heading2 {
     font-size: 1.5rem;
-    padding: 2rem 1rem;
+    padding: 2rem 0;
   }
   .button {
     cursor: pointer;
     outline: none;
     border: none;
     background-color: transparent;
+  }
+  .clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    white-space: normal;
   }
 }
