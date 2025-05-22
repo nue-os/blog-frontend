@@ -3,7 +3,7 @@ import Header from '../components/Header'
 
 const DefaultLayout = () => {
   return (
-    <div className="max-w-[600px] h-screen mx -auto relative overflow-y-auto overflow-x-hidden pb-8">
+    <div className="max-w-[600px] h-screen mx-auto relative overflow-y-auto overflow-x-hidden pb-8">
       <Header />
       <Outlet />
     </div>
