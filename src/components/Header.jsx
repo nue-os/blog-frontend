@@ -28,7 +28,7 @@ const Header = () => {
 
   if (username && isLoading) {
     return (
-      <header className="flex justify-between items-center bg-[#eaeaea] p-4 sticky top-0 w-full z-[9999]">
+      <header className="flex justify-between items-center bg-violet-100 p-4 sticky top-0 w-full z-[9999]">
         <h1>
           <Link to={'/'}>BLOG</Link>
         </h1>
@@ -38,7 +38,7 @@ const Header = () => {
   }
 
   return (
-    <header className="flex justify-between items-center bg-[#eaeaea] p-4 sticky top-0 w-full z-[9999]">
+    <header className="flex justify-between items-center bg-violet-100 p-4 sticky top-0 w-full z-[9999]">
       <h1>
         <Link to={'/'} className="text-xl font-bold">
           BLOG
