@@ -1,8 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import Input from '../components/Input'
 import { validateId, validatePassword } from '../utils/validation'
+import { login } from '../apis/userApi'
+import { useNavigate } from 'react-router-dom'
 
 const LoginPage = () => {
+  const navigate = useNavigate()
+
   const [form, setForm] = useState({
     id: '',
     password: '',
@@ -35,15 +39,20 @@ const LoginPage = () => {
     setForm(prev => ({ ...prev, [name]: value }))
   }
 
-  const handleLogin = e => {
+  const handleLogin = async e => {
     e.preventDefault()
-    setIsLogining(true)
-
-    // 임시
-    setTimeout(() => {
+    try {
+      setIsLogining(true)
+      const data = await login({ id: form.id, password: form.password })
+      console.log(data)
+      localStorage.setItem('userId', data.userId)
       alert('로그인 성공')
+      navigate('/')
+    } catch (err) {
+      setErrors(prev => ({ ...prev, password: err.message }))
+    } finally {
       setIsLogining(false)
-    }, 3000)
+    }
   }
 
   return (
