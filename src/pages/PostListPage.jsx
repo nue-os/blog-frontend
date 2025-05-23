@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import PostCard from '../components/PostCard'
+import { postsData } from '../mocks/data'
 
 const PostListPage = () => {
   const [postList, setPostList] = useState([])
@@ -34,15 +35,7 @@ const PostListPage = () => {
         if (page > 0) setIsLoading(true)
         // 임시
         const data = {
-          posts: [
-            {
-              id: 1,
-              title: '제목1',
-              summary: '내용1',
-              author: '작성자1',
-              createdAt: '2025-05-22T00:00:00Z',
-            },
-          ],
+          posts: postsData,
         }
         setPostList(prev => (page === 0 ? data.posts : [...prev, ...data.posts]))
         setHasMore(false)
@@ -67,7 +60,7 @@ const PostListPage = () => {
       ) : (
         <ul ref={listRef} className="flex flex-col gap-8">
           {postList.map((post, index) => (
-            <li key={post.id} ref={index === postList.length - 1 ? lastPostElementRef : null}>
+            <li key={post._id} ref={index === postList.length - 1 ? lastPostElementRef : null}>
               <PostCard post={post} />
             </li>
           ))}

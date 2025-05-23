@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { formatDate } from '../utils/features'
 import { useCallback, useEffect, useState } from 'react'
+import { commentsData } from '../mocks/data'
 
 export const Comments = ({ postId, onCommentCountChange }) => {
   const username = '작성자1'
@@ -14,26 +15,10 @@ export const Comments = ({ postId, onCommentCountChange }) => {
     try {
       //  const response = await getComments(postId)
       // 임시
-      const response = [
-        {
-          _id: 1,
-          content: '댓글1',
-          author: '작성자1',
-          postId,
-          createdAt: '2025-05-22T00:00:00Z',
-        },
-        {
-          _id: 2,
-          content: '댓글2',
-          author: '작성자2',
-          postId,
-          createdAt: '2025-05-22T00:00:00Z',
-        },
-      ]
-      setComments(response)
+      setComments(commentsData.filter(comment => comment.postId === Number(postId)))
       // 댓글 수를 부모 컴포넌트에 전달
       if (onCommentCountChange) {
-        onCommentCountChange(response.length)
+        onCommentCountChange(commentsData.length)
       }
     } catch (error) {
       console.error('댓글 목록 조회 실패:', error)
@@ -219,7 +204,7 @@ export const Comments = ({ postId, onCommentCountChange }) => {
         {comments.length > 0 ? (
           comments.map(renderCommentItem)
         ) : (
-          <li className="py-2 border-b border-dotted border-gray-300">
+          <li className="py-2 pb-4 border-b border-dotted border-gray-300">
             <p className="w-full text-xs">등록된 댓글이 없습니다. 첫 댓글을 작성해보세요!</p>
           </li>
         )}

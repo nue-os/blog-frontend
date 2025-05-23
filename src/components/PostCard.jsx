@@ -31,7 +31,8 @@ export default function PostCard({ post }) {
           <time className="text-[#999] ml-2">{formatDate(post.createdAt)}</time>
         </p>
         <p>
-          <span>❤️</span> <span>30</span> <span>💬</span> <span>30</span>
+          <span>❤️</span> <span>{post.likes.length}</span> <span>💬</span>{' '}
+          <span>{post.commentCount}</span>
         </p>
       </div>
       <p className="px-4 text-[0.8rem] leading-[1.25rem] text-black overflow-hidden mb-4 h-[60px] clamp-3">

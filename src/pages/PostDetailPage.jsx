@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { formatDate } from '../utils/features'
 import LikeButton from '../components/LikeButton'
 import { Comments } from '../components/Comments'
+import { postsData } from '../mocks/data'
 
 const PostDetailPage = () => {
   const username = ''
@@ -16,17 +17,9 @@ const PostDetailPage = () => {
     const fetchPostDetail = async () => {
       try {
         // 임시
-        const data = {
-          postId: postId,
-          title: '제목1',
-          summary: '써머리1',
-          content: '내용1',
-          author: '작성자1',
-          createdAt: '2025-05-22T00:00:00Z',
-          likes: [1, 2, 3, 4, 5, 6],
-        }
+        const data = postsData.find(post => post._id === Number(postId))
         setPostInfo(data)
-        setCommentCount(0)
+        setCommentCount(data.commentCount || 0)
       } catch (error) {
         console.error(error)
       }
