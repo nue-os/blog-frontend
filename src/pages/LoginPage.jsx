@@ -47,8 +47,8 @@ const LoginPage = () => {
   }
 
   return (
-    <main className="main">
-      <h2 className="heading2">로그인</h2>
+    <main>
+      <h2>로그인</h2>
       <form onSubmit={handleLogin} className="w-[calc(100%-2em)] m-auto flex flex-col gap-4">
         <Input
           name="id"

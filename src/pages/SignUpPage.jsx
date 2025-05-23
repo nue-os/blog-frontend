@@ -58,8 +58,8 @@ const SignUpPage = () => {
   }
 
   return (
-    <main className="main">
-      <h2 className="heading2">회원가입</h2>
+    <main>
+      <h2>회원가입</h2>
       <form onSubmit={handleSignUp} className="w-[calc(100%-2em)] m-auto flex flex-col gap-4">
         <Input
           name="id"

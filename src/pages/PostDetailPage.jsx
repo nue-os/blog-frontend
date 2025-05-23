@@ -47,8 +47,8 @@ const PostDetailPage = () => {
   }
 
   return (
-    <main className="main">
-      <h2 className="heading2">{postInfo?.title}</h2>
+    <main>
+      <h2>{postInfo?.title}</h2>
       <section>
         <div className="overflow-hidden relative pt-[50%]">
           <img

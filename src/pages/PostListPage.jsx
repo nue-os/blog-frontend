@@ -57,8 +57,8 @@ const PostListPage = () => {
   }, [page])
 
   return (
-    <main className="main">
-      <h2 className="heading2">글 목록</h2>
+    <main>
+      <h2>글 목록</h2>
       {error && <p>{error}</p>}
       {isLoading && page === 0 ? (
         <p>로딩 중 ...</p>
