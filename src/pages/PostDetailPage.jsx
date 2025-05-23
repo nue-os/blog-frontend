@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { formatDate } from '../utils/features'
 import LikeButton from '../components/LikeButton'
+import { Comments } from '../components/Comments'
 
 const PostDetailPage = () => {
   const username = ''
@@ -45,6 +46,9 @@ const PostDetailPage = () => {
       }
     }
   }
+
+  // 댓글 수를 업데이트하는 함수
+  const updateCommentCount = count => setCommentCount(count)
 
   return (
     <main>
@@ -95,6 +99,7 @@ const PostDetailPage = () => {
       </section>
 
       {/* Comment */}
+      <Comments postId={postId} onCommentCountChange={updateCommentCount} />
     </main>
   )
 }
