@@ -5,6 +5,7 @@ import LoginPage from '../pages/LoginPage'
 import PostListPage from '../pages/PostListPage'
 import PostDetailPage from '../pages/PostDetailPage'
 import CreatePost from '../pages/CreatePost'
+import { EditePost } from '../pages/EditPost'
 
 export const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
       {
         path: '/createPost',
         element: <CreatePost />,
+      },
+      {
+        path: '/edit/:postId',
+        element: <EditePost />,
       },
     ],
   },
