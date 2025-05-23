@@ -1,8 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { validateId, validatePassword, validatePasswordCheck } from '../utils/validation'
 import Input from '../components/Input'
+import { signUp } from '../apis/userApi'
+import { useNavigate } from 'react-router-dom'
 
 const SignUpPage = () => {
+  const navigate = useNavigate()
+
   const [form, setForm] = useState({
     id: '',
     password: '',
@@ -47,14 +51,21 @@ const SignUpPage = () => {
     !errors.password &&
     !errors.passwordCheck
 
-  const handleSignUp = e => {
+  const handleSignUp = async e => {
     e.preventDefault()
-    setIsSigningUp(true)
-    setTimeout(() => {
+    try {
+      setIsSigningUp(true)
+
+      await signUp({ id: form.id, password: form.password })
+
       alert('가입 완료')
       setIsSigningUp(false)
-    }, 3000)
-    // 바로 로그인 되도록 처리
+      navigate('/login')
+    } catch (err) {
+      if (err.status === 409) setErrors(prev => ({ ...prev, id: err.message }))
+      else setErrors(prev => ({ ...prev, passwordCheck: err.message }))
+      setIsSigningUp(false)
+    }
   }
 
   return (
