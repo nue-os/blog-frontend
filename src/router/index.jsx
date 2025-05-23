@@ -4,6 +4,7 @@ import SignUpPage from '../pages/SignUpPage'
 import LoginPage from '../pages/LoginPage'
 import PostListPage from '../pages/PostListPage'
 import PostDetailPage from '../pages/PostDetailPage'
+import CreatePost from '../pages/CreatePost'
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
       {
         path: '/detail/:postId',
         element: <PostDetailPage />,
+      },
+      {
+        path: '/createPost',
+        element: <CreatePost />,
       },
     ],
   },
