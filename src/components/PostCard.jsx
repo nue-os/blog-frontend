@@ -1,9 +1,14 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { formatDate } from '../utils/features'
 
 export default function PostCard({ post }) {
+  const navigate = useNavigate()
+
   return (
-    <article className="group border-b border-dotted border-[#e3e3e3] cursor-pointer rounded-2xl overflow-hidden shadow-md transition duration-300 hover:shadow-xl">
+    <article
+      className="group border-b border-dotted border-[#e3e3e3] cursor-pointer rounded-2xl overflow-hidden shadow-md transition duration-300 hover:shadow-xl"
+      onClick={() => navigate(`/detail/${post.id}`)}
+    >
       <div className="overflow-hidden relative pt-[50%]">
         <img
           src="https://picsum.photos/600/300"

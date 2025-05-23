@@ -3,6 +3,7 @@ import DefaultLayout from '../layout/DefaultLayout'
 import SignUpPage from '../pages/SignUpPage'
 import LoginPage from '../pages/LoginPage'
 import PostListPage from '../pages/PostListPage'
+import PostDetailPage from '../pages/PostDetailPage'
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ export const router = createBrowserRouter([
       {
         path: '/login',
         element: <LoginPage />,
+      },
+      {
+        path: '/detail/:postId',
+        element: <PostDetailPage />,
       },
     ],
   },

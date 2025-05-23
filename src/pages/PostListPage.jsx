@@ -54,7 +54,7 @@ const PostListPage = () => {
       }
     }
     fetchPostList()
-  })
+  }, [page])
 
   return (
     <main className="main">
