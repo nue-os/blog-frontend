@@ -59,11 +59,11 @@ const SignUpPage = () => {
       await signUp({ id: form.id, password: form.password })
 
       alert('가입 완료')
-      setIsSigningUp(false)
       navigate('/login')
     } catch (err) {
       if (err.status === 409) setErrors(prev => ({ ...prev, id: err.message }))
       else setErrors(prev => ({ ...prev, passwordCheck: err.message }))
+    } finally {
       setIsSigningUp(false)
     }
   }
