@@ -44,15 +44,17 @@ const PostDetailPage = () => {
 
   return (
     <main>
-      <h2>{postInfo?.title}</h2>
+      <h2>{postInfo.title}</h2>
       <section>
-        <div className="overflow-hidden relative pt-[50%]">
-          <img
-            src={`${import.meta.env.VITE_BACK_URL}/${postInfo.cover}`}
-            alt={postInfo.title}
-            className="absolute top-0 w-full h-full object-cover"
-          />
-        </div>
+        {postInfo.cover && (
+          <div className="overflow-hidden relative pt-[50%]">
+            <img
+              src={`${import.meta.env.VITE_BACK_URL}/${postInfo.cover}`}
+              alt={postInfo.title}
+              className="absolute top-0 w-full h-full object-cover"
+            />
+          </div>
+        )}
         <div className="flex justify-between items-center gap-8 p-4 text-[0.7rem]">
           <p className="text-dodgerblue font-bold py-1 pr-4 pl-0 hover:text-blue-800">
             <Link to={`/userpage/${postInfo.author}`}>{postInfo.author}</Link>
