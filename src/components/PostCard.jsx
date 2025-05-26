@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { formatDate } from '../utils/features'
 
 export default function PostCard({ post }) {
+  console.log(post)
   const navigate = useNavigate()
 
   return (
@@ -11,7 +12,7 @@ export default function PostCard({ post }) {
     >
       <div className="overflow-hidden relative pt-[50%]">
         <img
-          src="https://picsum.photos/600/300"
+          src={`${import.meta.env.VITE_BACK_URL}/${post.cover}`}
           alt={post.title}
           className="absolute top-0 w-full h-full object-cover transition-all duration-200 ease-in-out group-hover:scale-110"
         />
@@ -26,13 +27,13 @@ export default function PostCard({ post }) {
             to={`/mypage`}
             className="text-dodgerblue font-bold py-1 pr-4 pl-0 hover:text-blue-800"
           >
-            any
+            {post.author}
           </Link>
           <time className="text-[#999] ml-2">{formatDate(post.createdAt)}</time>
         </p>
         <p>
           <span>❤️</span> <span>{post.likes.length}</span> <span>💬</span>{' '}
-          <span>{post.commentCount}</span>
+          <span>{post.commentCount || 0}</span>
         </p>
       </div>
       <p className="px-4 text-[0.8rem] leading-[1.25rem] text-black overflow-hidden mb-4 h-[60px] clamp-3">

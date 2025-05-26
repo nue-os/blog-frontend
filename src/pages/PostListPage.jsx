@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import PostCard from '../components/PostCard'
-import { postsData } from '../mocks/data'
+import { getPostList } from '../apis/postApi'
 
 const PostListPage = () => {
   const [postList, setPostList] = useState([])
@@ -30,18 +30,16 @@ const PostListPage = () => {
   )
 
   useEffect(() => {
-    const fetchPostList = () => {
+    const fetchPostList = async () => {
       try {
+        // 페이지가 0보다 크면 추가 데이터 로딩
         if (page > 0) setIsLoading(true)
-        // 임시
-        const data = {
-          posts: postsData,
-        }
+
+        const data = await getPostList(page)
         setPostList(prev => (page === 0 ? data.posts : [...prev, ...data.posts]))
-        setHasMore(false)
+        setHasMore(data.hasMore)
       } catch (err) {
-        console.error(err)
-        setError('글 목록을 불러오는데 실패했습니다.')
+        setError(err.message)
       } finally {
         setIsLoading(false)
       }
