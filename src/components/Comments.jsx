@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { formatDate } from '../utils/features'
 import { useCallback, useEffect, useState } from 'react'
 import useUserStore from '../store/useUserStore'
-import { createComment, getComments } from '../apis/commentApi'
+import { createComment, deleteComment, getComments } from '../apis/commentApi'
 
 export const Comments = ({ postId, onCommentCountChange }) => {
   const id = useUserStore(state => state.id)
@@ -67,7 +67,7 @@ export const Comments = ({ postId, onCommentCountChange }) => {
 
     try {
       setIsLoading(true)
-      //   await deleteComment(commentId)
+      await deleteComment(commentId)
       const updatedComments = comments.filter(comment => comment._id !== commentId)
       setComments(updatedComments)
 
