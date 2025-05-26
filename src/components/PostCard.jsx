@@ -1,9 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { formatDate } from '../utils/features'
+import LikeButton from './LikeButton'
 
 export default function PostCard({ post }) {
-  console.log(post)
   const navigate = useNavigate()
+
+  const handleAuthorClick = e => e.stopPropagation()
 
   return (
     <article
@@ -29,14 +31,15 @@ export default function PostCard({ post }) {
           <Link
             to={`/mypage`}
             className="text-dodgerblue font-bold py-1 pr-4 pl-0 hover:text-blue-800"
+            onClick={handleAuthorClick}
           >
             {post.author}
           </Link>
           <time className="text-[#999] ml-2">{formatDate(post.createdAt)}</time>
         </p>
         <p>
-          <span>❤️</span> <span>{post.likes.length}</span> <span>💬</span>{' '}
-          <span>{post.commentCount || 0}</span>
+          <LikeButton postId={post._id} likes={post.likes} />
+          <span>💬</span> <span>{post.commentCount || 0}</span>
         </p>
       </div>
       <p className="px-4 text-[0.8rem] leading-[1.25rem] text-black overflow-hidden mb-4 h-[60px] clamp-3">

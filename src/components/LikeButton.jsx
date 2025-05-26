@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import useUserStore from '../store/useUserStore'
+import { toggleLike } from '../apis/postApi'
 
 const LikeButton = ({ postId, likes }) => {
   const navigate = useNavigate()
-  const userId = 1 // 임시
+
+  const userId = useUserStore(state => state.userId)
 
   const [isLiked, setIsLiked] = useState(false)
   const [likesCount, setLikesCount] = useState(likes ? likes.length : 0)
@@ -22,15 +25,12 @@ const LikeButton = ({ postId, likes }) => {
     e.stopPropagation()
 
     try {
-      // 좋아요 토글 API 호출
-      // const updatedPost = await toggleLike(postId)
-
+      const data = await toggleLike(postId)
       setIsLiked(prevIsLiked => !prevIsLiked)
-      setLikesCount(isLiked ? likesCount - 1 : likesCount + 1)
+      setLikesCount(data.likes.length)
     } catch (error) {
       console.error('좋아요 토글 실패:', error)
-
-      if (error.response && error.response.status === 401) {
+      if (error.status === 401) {
         alert('로그인이 필요합니다.')
         navigate('/login')
       }
@@ -41,7 +41,7 @@ const LikeButton = ({ postId, likes }) => {
       <span onClick={handleLikeToggle} className="cursor-pointer">
         {isLiked ? '❤️ ' : '🤍 '}
       </span>
-      <span>{likesCount}</span>
+      <span>{likesCount} </span>
     </span>
   )
 }
