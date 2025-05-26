@@ -3,9 +3,11 @@ import Input from '../components/Input'
 import { validateId, validatePassword } from '../utils/validation'
 import { login } from '../apis/userApi'
 import { useNavigate } from 'react-router-dom'
+import useUserStore from '../store/useUserStore.js'
 
 const LoginPage = () => {
   const navigate = useNavigate()
+  const setUserId = useUserStore(state => state.setUserId)
 
   const [form, setForm] = useState({
     id: '',
@@ -44,8 +46,8 @@ const LoginPage = () => {
     try {
       setIsLogining(true)
       const data = await login({ id: form.id, password: form.password })
-      console.log(data)
-      localStorage.setItem('userId', data.userId)
+      setUserId(data.userId)
+
       alert('로그인 성공')
       navigate('/')
     } catch (err) {

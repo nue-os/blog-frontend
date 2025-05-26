@@ -1,11 +1,35 @@
-import { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
+import useUserStore from '../store/useUserStore'
+import { getUserProfile, logout } from '../apis/userApi'
 
 const Header = () => {
+  const navigate = useNavigate()
+
+  const { userId, id, setId, resetUser } = useUserStore()
+
   const [isMenuActive, setIsMenuActive] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
 
-  const username = ''
+  useEffect(() => {
+    const getProfile = async () => {
+      try {
+        setIsLoading(true)
+        const userData = await getUserProfile()
+        if (userData) {
+          setId(userData.id)
+        } else {
+          resetUser() // ✅ userData가 없으면 reset
+        }
+      } catch (err) {
+        console.log(err.message)
+        resetUser()
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    getProfile()
+  }, [userId, setId, resetUser])
 
   const toggleMenu = () => {
     setIsMenuActive(prev => !prev)
@@ -26,7 +50,18 @@ const Header = () => {
     e.stopPropagation()
   }
 
-  if (username && isLoading) {
+  const handleLogout = async () => {
+    try {
+      await logout()
+      resetUser(id)
+      setIsMenuActive(false)
+      navigate('/', { replace: true })
+    } catch (err) {
+      console.log('로그아웃 실패:', err)
+    }
+  }
+
+  if (isLoading) {
     return (
       <header className="flex justify-between items-center bg-violet-100 p-4 sticky top-0 w-full z-[9999]">
         <h1>
@@ -55,18 +90,15 @@ const Header = () => {
             ${isMenuActive ? 'right-0 ' : ''}`}
           onClick={handleGnbClick}
         >
-          {username ? (
+          {userId && id ? (
             <div className="flex flex-col gap-2">
               <MenuLike to="/createPost" label="글쓰기" closeMenu={closeMenu} />
               <MenuLike
-                to={`/userpage/${username}`}
-                label={`마이페이지(${username})`}
+                to={`/userpage/${userId}`}
+                label={`마이페이지(${id})`}
                 closeMenu={closeMenu}
               />
-              <button
-                className="block px-4 py-2 no-underline text-orange-500"
-                onClick={() => alert('로그아웃')}
-              >
+              <button className="px-4 py-2 text-orange-500 text-left" onClick={handleLogout}>
                 로그아웃
               </button>
             </div>
