@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { formatDate } from '../utils/features'
 import { useCallback, useEffect, useState } from 'react'
 import useUserStore from '../store/useUserStore'
-import { createComment, deleteComment, getComments } from '../apis/commentApi'
+import { createComment, deleteComment, getComments, updateComment } from '../apis/commentApi'
 
 export const Comments = ({ postId, onCommentCountChange }) => {
   const id = useUserStore(state => state.id)
@@ -93,7 +93,7 @@ export const Comments = ({ postId, onCommentCountChange }) => {
 
     try {
       setIsLoading(true)
-      //   await updateComment(commentId, editState.content)
+      await updateComment(commentId, editState.content)
 
       setComments(prevComments =>
         prevComments.map(comment =>
@@ -102,8 +102,7 @@ export const Comments = ({ postId, onCommentCountChange }) => {
       )
       handleCancelEdit()
     } catch (error) {
-      console.error('댓글 수정 실패:', error)
-      alert('댓글 수정에 실패했습니다.')
+      alert(error.message)
     } finally {
       setIsLoading(false)
     }
@@ -140,7 +139,7 @@ export const Comments = ({ postId, onCommentCountChange }) => {
               disabled={isLoading}
               className="cursor-pointer text-xs px-3 py-1 rounded-md"
             >
-              수정완료
+              수정 완료
             </button>
             <button
               onClick={handleCancelEdit}
