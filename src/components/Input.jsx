@@ -1,11 +1,31 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
-const Input = ({ id, name, type = 'text', placeholder, value, error, onChange, accept }) => {
-  const [fileName, setFileName] = useState('파일을 선택하세요')
+const Input = ({
+  id,
+  name,
+  type = 'text',
+  placeholder,
+  value,
+  error,
+  onChange,
+  accept,
+  defaultFileName,
+}) => {
+  const [fileName, setFileName] = useState(defaultFileName || '파일을 선택하세요')
+  const [isUserSelected, setIsUserSelected] = useState(false)
+
+  useEffect(() => {
+    if (!isUserSelected) {
+      setFileName(defaultFileName || '파일을 선택하세요')
+    }
+  }, [defaultFileName, isUserSelected])
 
   const handleFileChange = e => {
     const file = e.target.files?.[0]
-    setFileName(file ? file.name : '파일을 선택하세요')
+    if (file) {
+      setFileName(file.name)
+      setIsUserSelected(true)
+    }
     onChange && onChange(e)
   }
 

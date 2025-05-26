@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import QuillEditor from '../components/QuillEditor'
 import Input from '../components/Input'
+import useUserStore from '../store/useUserStore'
+import { getPostDetail, updatePost } from '../apis/postApi'
 
 export const EditePost = () => {
   const { postId } = useParams()
   const navigate = useNavigate()
-  const username = '작성자1'
+  const { userId, id } = useUserStore()
 
   const [title, setTitle] = useState('')
   const [summary, setSummary] = useState('')
@@ -20,10 +22,11 @@ export const EditePost = () => {
 
   // 사용자 정보가 없으면 로그인 페이지로 리디렉션
   useEffect(() => {
-    if (!username) {
+    if (id === null) return
+    if (!userId || !id) {
       navigate('/login')
     }
-  }, [navigate])
+  }, [userId, id, navigate])
 
   // 글 정보 불러오기
   useEffect(() => {
@@ -31,21 +34,10 @@ export const EditePost = () => {
       try {
         setIsLoading(true)
 
-        // const postData = await getPostDetail(postId)
-        // 임시
-        const postData = {
-          postId: postId,
-          title: '제목1',
-          summary: '써머리1',
-          content: '내용1',
-          author: '작성자1',
-          createdAt: '2025-05-22T00:00:00Z',
-          likes: [1, 2, 3, 4, 5, 6],
-          cover: 'https://picsum.photos/600/300',
-        }
+        const postData = await getPostDetail(postId)
 
         // 현재 사용자와 글 작성자가 다르면 접근 제한
-        if (postData.author !== username) {
+        if (postData.author !== id) {
           setError('자신의 글만 수정할 수 있습니다')
           navigate('/')
           return
@@ -58,20 +50,19 @@ export const EditePost = () => {
 
         // 이미지가 있으면 이미지 URL 설정
         if (postData.cover) {
-          setCurrentImage(postData.cover)
+          setCurrentImage(`${import.meta.env.VITE_BACK_URL}/${postData.cover}`)
         }
       } catch (err) {
-        console.error('글 정보 불러오기 실패:', err)
-        setError('글 정보를 불러오는데 실패했습니다')
+        setError(err.message)
       } finally {
         setIsLoading(false)
       }
     }
 
-    if (username) {
+    if (userId && id) {
       fetchPost()
     }
-  }, [postId, navigate])
+  }, [userId, id, postId, navigate])
 
   const handleContentChange = content => setContent(content)
 
@@ -99,13 +90,12 @@ export const EditePost = () => {
       }
 
       // API 호출하여 글 업데이트
-      //   await updatePost(postId, formData)
+      await updatePost(postId, formData)
 
       // 성공 시 상세 페이지로 이동
       navigate(`/detail/${postId}`)
     } catch (err) {
-      console.error('글 수정 실패:', err)
-      setError(err.response?.data?.error || '글 수정에 실패했습니다')
+      setError(err.message || '글 수정에 실패했습니다')
     } finally {
       setIsSubmitting(false)
     }
@@ -119,7 +109,7 @@ export const EditePost = () => {
     <main>
       <h2>글 수정하기</h2>
       {error && <div className="bg-[#ffebee] text-[#c62828] p-[10px] rounded-md mb-5">{error}</div>}
-      <form className="flex flex-wrap gap-4" onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <label htmlFor="title">제목</label>
         <Input
           type="text"
@@ -131,7 +121,7 @@ export const EditePost = () => {
           required
         />
 
-        <label htmlFor="summary">요약내용</label>
+        <label htmlFor="summary">요약 내용</label>
         <Input
           type="text"
           id="summary"
@@ -142,7 +132,7 @@ export const EditePost = () => {
           required
         />
 
-        <label htmlFor="files">파일첨부</label>
+        <label htmlFor="files">파일 첨부</label>
         <Input
           type="file"
           id="files"
@@ -152,12 +142,19 @@ export const EditePost = () => {
             setFiles(e.target.files)
             setCurrentImage(null)
           }}
+          defaultFileName={currentImage?.split('/').pop()}
         />
 
         {currentImage && (
           <div className="flex flex-col gap-2">
             <label>현재 이미지</label>
-            <img src={currentImage} alt="현재 이미지" />
+            <div className="overflow-hidden relative pt-[50%]">
+              <img
+                src={currentImage}
+                alt="현재 이미지"
+                className="absolute top-0 w-full h-full object-cover"
+              />
+            </div>
             <p className="text-sm text-gray-500 text-center">
               ⚠️ 새 이미지를 업로드하면 기존 이미지는 대체됩니다.
             </p>

@@ -31,6 +31,21 @@ export const getRequest = async (endpoint, params = {}) => {
   }
 }
 
+export const putRequest = async (endpoint, data) => {
+  try {
+    const response = await axios.put(`${API_URL}${endpoint}`, data, {
+      withCredentials: true,
+    })
+    return response.data
+  } catch (error) {
+    const status = error.response?.status
+    const message = error.response?.data?.message || error.response?.data?.error || '요청 실패'
+    const customError = new Error(message)
+    customError.status = status
+    throw customError
+  }
+}
+
 export const deleteRequest = async (endpoint, params = {}) => {
   try {
     const response = await axios.delete(`${API_URL}${endpoint}`, {
