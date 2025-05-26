@@ -1,8 +1,8 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { formatDate } from '../utils/features'
 import { useEffect, useState } from 'react'
-import { commentsData, likesData } from '../mocks/data'
-import { getUserInfo, getUserPosts } from '../apis/userApi'
+import { likesData } from '../mocks/data'
+import { getUserComments, getUserInfo, getUserPosts } from '../apis/userApi'
 import useUserStore from '../store/useUserStore'
 
 const UserPage = () => {
@@ -28,7 +28,7 @@ const UserPage = () => {
         // API 호출을 통해 데이터 가져오기
         const userInfo = await getUserInfo(username)
         const postsData = await getUserPosts(username)
-        // const commentsData = await getUserComments(username)
+        const commentsData = await getUserComments(username)
         // const likesData = await getUserLikes(username)
 
         setUserData(userInfo)
@@ -127,7 +127,7 @@ const UserPage = () => {
             ))}
           </ul>
         ) : (
-          <p>작성한 글이 없습니다.</p>
+          <p className="text-sm py-4">작성한 글이 없습니다.</p>
         )}
       </section>
 
@@ -151,7 +151,7 @@ const UserPage = () => {
             ))}
           </ul>
         ) : (
-          <p>작성한 댓글이 없습니다.</p>
+          <p className="text-sm py-4">작성한 댓글이 없습니다.</p>
         )}
       </section>
 
@@ -183,7 +183,7 @@ const UserPage = () => {
             ))}
           </ul>
         ) : (
-          <p>좋아요 클릭한 글이 없습니다.</p>
+          <p className="text-sm py-4">좋아요 클릭한 글이 없습니다.</p>
         )}
       </section>
     </main>
