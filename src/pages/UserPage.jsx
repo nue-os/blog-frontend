@@ -1,8 +1,8 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { formatDate } from '../utils/features'
 import { useEffect, useState } from 'react'
-import { commentsData, likesData, postsData } from '../mocks/data'
-import { getUserInfo } from '../apis/userApi'
+import { commentsData, likesData } from '../mocks/data'
+import { getUserInfo, getUserPosts } from '../apis/userApi'
 import useUserStore from '../store/useUserStore'
 
 const UserPage = () => {
@@ -27,7 +27,7 @@ const UserPage = () => {
 
         // API 호출을 통해 데이터 가져오기
         const userInfo = await getUserInfo(username)
-        // const postsData = await getUserPosts(username)
+        const postsData = await getUserPosts(username)
         // const commentsData = await getUserComments(username)
         // const likesData = await getUserLikes(username)
 

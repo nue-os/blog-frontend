@@ -6,4 +6,4 @@ export const logout = () => postRequest('/logout')
 
 export const getUserProfile = () => getRequest(`/profile`)
 export const getUserInfo = username => getRequest(`/user/${username}`)
-// export const getUserPosts = username => getRequest(`/user/posts${username}`)
+export const getUserPosts = username => getRequest(`/user/${username}/posts`)
