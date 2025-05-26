@@ -93,11 +93,7 @@ const Header = () => {
           {userId && id ? (
             <div className="flex flex-col gap-2">
               <MenuLike to="/createPost" label="글쓰기" closeMenu={closeMenu} />
-              <MenuLike
-                to={`/userpage/${userId}`}
-                label={`마이페이지(${id})`}
-                closeMenu={closeMenu}
-              />
+              <MenuLike to={`/userpage/${id}`} label={`마이페이지(${id})`} closeMenu={closeMenu} />
               <button className="px-4 py-2 text-orange-500 text-left" onClick={handleLogout}>
                 로그아웃
               </button>
