@@ -7,6 +7,7 @@ const Input = ({
   placeholder,
   value,
   error,
+  disabled,
   onChange,
   accept,
   defaultFileName,
@@ -52,6 +53,7 @@ const Input = ({
           type={type}
           placeholder={placeholder}
           value={value}
+          disabled={disabled}
           onChange={onChange}
           className="w-full p-4 rounded border border-gray-400 outline-none border-light-blue-500 focus:bg-light-blue-500"
         />

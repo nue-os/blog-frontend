@@ -7,6 +7,7 @@ import PostDetailPage from '../pages/PostDetailPage'
 import CreatePost from '../pages/CreatePost'
 import { EditePost } from '../pages/EditPost'
 import UserPage from '../pages/UserPage'
+import UserInfoUpdate from '../pages/UserInfoUpdate'
 
 export const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ export const router = createBrowserRouter([
       {
         path: '/userpage/:username',
         element: <UserPage />,
+      },
+      {
+        path: '/update-profile',
+        element: <UserInfoUpdate />,
       },
     ],
   },
