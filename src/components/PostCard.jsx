@@ -29,7 +29,7 @@ export default function PostCard({ post }) {
       <div className="flex items-center justify-between text-[0.8rem] px-4">
         <p>
           <Link
-            to={`/mypage`}
+            to={`/userpage/${post.author}`}
             className="text-dodgerblue font-bold py-1 pr-4 pl-0 hover:text-blue-800"
             onClick={handleAuthorClick}
           >

@@ -1,12 +1,16 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { formatDate } from '../utils/features'
 import { useEffect, useState } from 'react'
-import { commentsData, likesData, postsData, userInfo } from '../mocks/data'
+import { commentsData, likesData, postsData } from '../mocks/data'
+import { getUserInfo } from '../apis/userApi'
+import useUserStore from '../store/useUserStore'
 
 const UserPage = () => {
   const navigate = useNavigate()
-
   const { username } = useParams()
+
+  const id = useUserStore(state => state.id)
+  const isCurrentUser = id === username
 
   const [userData, setUserData] = useState(null)
   const [userPosts, setUserPosts] = useState([])
@@ -16,15 +20,13 @@ const UserPage = () => {
   const [error, setError] = useState(null)
   const [isDeleting, setIsDeleting] = useState(false)
 
-  const isCurrentUser = '작성자1' === username
-
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         setLoading(true)
 
         // API 호출을 통해 데이터 가져오기
-        // const userData = await getUserInfo(username)
+        const userInfo = await getUserInfo(username)
         // const postsData = await getUserPosts(username)
         // const commentsData = await getUserComments(username)
         // const likesData = await getUserLikes(username)
@@ -33,10 +35,9 @@ const UserPage = () => {
         setUserPosts(postsData)
         setUserComments(commentsData)
         setUserLikes(likesData)
-        setLoading(false)
       } catch (err) {
-        console.error('사용자 데이터 로딩 실패:', err)
-        setError('사용자 정보를 불러오는데 실패했습니다.')
+        setError(err.message)
+      } finally {
         setLoading(false)
       }
     }
@@ -81,7 +82,7 @@ const UserPage = () => {
         <h3 className="mb-2">사용자 정보</h3>
         <div className="bg-[#f5f5f5] p-4 rounded mb-4">
           <p>
-            <strong>사용자 이름:</strong> {userData.username}
+            <strong>사용자 이름:</strong> {username}
           </p>
           <p>
             <strong>가입일:</strong> {formatDate(userData.createdAt)}
