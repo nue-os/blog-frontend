@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { formatDate } from '../utils/features'
 import LikeButton from '../components/LikeButton'
 import { Comments } from '../components/Comments'
-import { postsData } from '../mocks/data'
+import { getPostDetail } from '../apis/postApi'
 
 const PostDetailPage = () => {
   const username = ''
@@ -16,8 +16,7 @@ const PostDetailPage = () => {
   useEffect(() => {
     const fetchPostDetail = async () => {
       try {
-        // 임시
-        const data = postsData.find(post => post._id === Number(postId))
+        const data = await getPostDetail(postId)
         setPostInfo(data)
         setCommentCount(data.commentCount || 0)
       } catch (error) {
@@ -49,16 +48,16 @@ const PostDetailPage = () => {
       <section>
         <div className="overflow-hidden relative pt-[50%]">
           <img
-            src="https://picsum.photos/600/300"
-            alt={postInfo?.title}
+            src={`${import.meta.env.VITE_BACK_URL}/${postInfo.cover}`}
+            alt={postInfo.title}
             className="absolute top-0 w-full h-full object-cover"
           />
         </div>
         <div className="flex justify-between items-center gap-8 p-4 text-[0.7rem]">
           <p className="text-dodgerblue font-bold py-1 pr-4 pl-0 hover:text-blue-800">
-            <Link to={`/userpage/${postInfo?.author}`}>{postInfo?.author}</Link>
+            <Link to={`/userpage/${postInfo.author}`}>{postInfo.author}</Link>
           </p>
-          <p className="text-[#999] ml-2 flex-1">{formatDate(postInfo?.createdAt)}</p>
+          <p className="text-[#999] ml-2 flex-1">{formatDate(postInfo.createdAt)}</p>
           <p>
             {postInfo && <LikeButton postId={postId} likes={postInfo.likes} />}
             <span className="ml-[10px]">💬 {commentCount}</span>
