@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom'
 import { formatDate } from '../utils/features'
 import { useCallback, useEffect, useState } from 'react'
-import { commentsData } from '../mocks/data'
 import useUserStore from '../store/useUserStore'
-import { createComment } from '../apis/commentApi'
+import { createComment, getComments } from '../apis/commentApi'
 
 export const Comments = ({ postId, onCommentCountChange }) => {
   const id = useUserStore(state => state.id)
@@ -15,22 +14,21 @@ export const Comments = ({ postId, onCommentCountChange }) => {
 
   const fetchComments = useCallback(async () => {
     try {
-      //  const response = await getComments(postId)
-      // 임시
-      setComments(commentsData.filter(comment => comment.postId === Number(postId)))
+      const commentsData = await getComments(postId)
+      setComments(commentsData)
+
       // 댓글 수를 부모 컴포넌트에 전달
       if (onCommentCountChange) {
         onCommentCountChange(commentsData.length)
       }
     } catch (error) {
-      console.error('댓글 목록 조회 실패:', error)
-      alert('댓글 목록 조회에 실패했습니다.')
+      alert(error.message)
     }
   }, [postId, onCommentCountChange])
 
   useEffect(() => {
     fetchComments()
-  }, []) // 임시
+  }, [fetchComments])
 
   const handleSubmit = async e => {
     e.preventDefault()
