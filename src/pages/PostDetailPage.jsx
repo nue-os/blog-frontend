@@ -3,10 +3,11 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { formatDate } from '../utils/features'
 import LikeButton from '../components/LikeButton'
 import { Comments } from '../components/Comments'
-import { getPostDetail } from '../apis/postApi'
+import { deletePost, getPostDetail } from '../apis/postApi'
+import useUserStore from '../store/useUserStore'
 
 const PostDetailPage = () => {
-  const username = ''
+  const id = useUserStore(state => state.id)
   const navigate = useNavigate()
 
   const { postId } = useParams()
@@ -29,12 +30,11 @@ const PostDetailPage = () => {
   const handleDeletePost = async () => {
     if (window.confirm('정말 삭제하시겠습니까?')) {
       try {
-        // postId를 이용하여 글을 삭제
+        await deletePost(postId)
         alert('삭제되었습니다.')
         navigate('/')
       } catch (error) {
-        console.error('글 삭제 실패:', error)
-        alert('삭제에 실패했습니다.')
+        alert(error.message)
       }
     }
   }
@@ -70,18 +70,18 @@ const PostDetailPage = () => {
         ></div>
       </section>
 
-      <section className="py-4 flex gap-4 justify-end border-t border-b border-dotted border-[#e3e3e3]">
-        {username === postInfo?.author && (
+      <section className="py-4 flex gap-4 justify-end items-center border-t border-b border-dotted border-[#e3e3e3]">
+        {id === postInfo.author && (
           <>
             <Link
               to={`/edit/${postId}`}
-              className="bg-gray-300 text-sm rounded-[10px] p-4 cursor-pointer transition duration-30 hover:bg-gray-500 hover:text-white"
+              className="bg-violet-200 text-sm rounded-[10px] px-4 py-1 cursor-pointer transition duration-30 hover:bg-violet-300 hover:text-white"
             >
               수정
             </Link>
             <span
               onClick={handleDeletePost}
-              className="bg-gray-300 text-sm rounded-[10px] p-4 cursor-pointer transition duration-300 hover:bg-gray-500 hover:text-white"
+              className="bg-violet-200 text-sm rounded-[10px] px-4 py-1 cursor-pointer transition duration-300 hover:bg-violet-300  hover:text-white"
             >
               삭제
             </span>
