@@ -6,4 +6,4 @@ export const getPostDetail = postId => getRequest(`/post/${postId}`)
 export const updatePost = (postId, postData) => putRequest(`/post/${postId}`, postData)
 export const deletePost = postId => deleteRequest(`/post/${postId}`)
 
-export const toggleLike = postId => postRequest(`/like/${postId}`)
+export const toggleLike = postId => postRequest(`/post/${postId}/like`)
