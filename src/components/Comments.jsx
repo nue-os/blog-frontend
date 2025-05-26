@@ -3,9 +3,10 @@ import { formatDate } from '../utils/features'
 import { useCallback, useEffect, useState } from 'react'
 import { commentsData } from '../mocks/data'
 import useUserStore from '../store/useUserStore'
+import { createComment } from '../apis/commentApi'
 
 export const Comments = ({ postId, onCommentCountChange }) => {
-  const { id } = useUserStore()
+  const id = useUserStore(state => state.id)
 
   const [newComment, setNewComment] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -44,13 +45,11 @@ export const Comments = ({ postId, onCommentCountChange }) => {
         content: newComment,
         author: id,
         postId,
-        _id: Date.now().toString(), // 임시 고유 ID
-        createdAt: new Date().toISOString(),
       }
 
-      //   const response = await createComment(commentData)
-      //   const updatedComments = [response, ...comments]
-      const updatedComments = [commentData, ...comments]
+      const response = await createComment(commentData)
+      const updatedComments = [response, ...comments]
+
       setComments(updatedComments)
       setNewComment('')
 
@@ -59,8 +58,7 @@ export const Comments = ({ postId, onCommentCountChange }) => {
         onCommentCountChange(updatedComments.length)
       }
     } catch (error) {
-      console.error('댓글 등록 실패:', error)
-      alert('댓글 등록에 실패했습니다.')
+      alert(error.message)
     } finally {
       setIsLoading(false)
     }
