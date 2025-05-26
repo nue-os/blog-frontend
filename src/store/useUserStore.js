@@ -8,7 +8,7 @@ const getInitialUserId = () => {
 }
 const useUserStore = create(set => ({
   userId: getInitialUserId(),
-  id: '',
+  id: null,
   setUserId: userId => {
     localStorage.setItem('userId', userId)
     set({ userId })
@@ -16,7 +16,7 @@ const useUserStore = create(set => ({
   setId: id => set({ id }),
   resetUser: () => {
     localStorage.removeItem('userId')
-    set({ userId: null, id: '' })
+    set({ userId: null, id: null })
   },
 }))
 

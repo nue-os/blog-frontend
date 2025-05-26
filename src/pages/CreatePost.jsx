@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import QuillEditor from '../components/QuillEditor'
 import Input from '../components/Input'
+import useUserStore from '../store/useUserStore'
+import { createPost } from '../apis/postApi'
 
 const CreatePost = () => {
   const navigate = useNavigate()
 
-  const username = 'any'
+  const id = useUserStore(state => state.id)
 
   const [title, setTitle] = useState('')
   const [summary, setSummary] = useState('')
@@ -16,10 +18,11 @@ const CreatePost = () => {
   const [error, setError] = useState('')
 
   useEffect(() => {
-    if (!username) {
+    if (id === null) return // 로딩 중
+    if (!id) {
       navigate('/login')
     }
-  }, [navigate])
+  }, [id, navigate])
 
   const handleContentChange = content => setContent(content)
 
@@ -30,7 +33,7 @@ const CreatePost = () => {
 
     if (!title || !summary || !content) {
       setIsSubmitting(false)
-      setError('모든 필드를 입력해주세요')
+      setError('모든 필드를 입력해주세요.')
       return
     }
 
@@ -45,7 +48,7 @@ const CreatePost = () => {
     }
 
     try {
-      //   await createPost(data)
+      await createPost(data)
 
       setIsSubmitting(false)
       navigate('/')

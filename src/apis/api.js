@@ -1,23 +1,10 @@
 import axios from 'axios'
 
 const API_URL = import.meta.env.VITE_BACK_URL || 'http://localhost:3000'
-const API_POST_REQUEST_OPTIONS = {
-  withCredentials: true,
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  },
-}
-const API_REQUEST_OPTIONS = {
-  withCredentials: true,
-  headers: {
-    Accept: 'application/json',
-  },
-}
 
 export const postRequest = async (endpoint, data) => {
   try {
-    const response = await axios.post(`${API_URL}${endpoint}`, data, API_POST_REQUEST_OPTIONS)
+    const response = await axios.post(`${API_URL}${endpoint}`, data, { withCredentials: true })
     return response.data
   } catch (error) {
     const status = error.response?.status
@@ -31,7 +18,7 @@ export const postRequest = async (endpoint, data) => {
 export const getRequest = async (endpoint, params = {}) => {
   try {
     const response = await axios.get(`${API_URL}${endpoint}`, {
-      ...API_REQUEST_OPTIONS,
+      withCredentials: true,
       params: params,
     })
     return response.data
