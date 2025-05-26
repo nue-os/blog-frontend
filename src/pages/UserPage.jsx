@@ -1,8 +1,7 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { formatDate } from '../utils/features'
 import { useEffect, useState } from 'react'
-import { likesData } from '../mocks/data'
-import { getUserComments, getUserInfo, getUserPosts } from '../apis/userApi'
+import { getUserComments, getUserInfo, getUserLikes, getUserPosts } from '../apis/userApi'
 import useUserStore from '../store/useUserStore'
 
 const UserPage = () => {
@@ -29,7 +28,7 @@ const UserPage = () => {
         const userInfo = await getUserInfo(username)
         const postsData = await getUserPosts(username)
         const commentsData = await getUserComments(username)
-        // const likesData = await getUserLikes(username)
+        const likesData = await getUserLikes(username)
 
         setUserData(userInfo)
         setUserPosts(postsData)
@@ -163,7 +162,7 @@ const UserPage = () => {
               <li key={post._id}>
                 <Link
                   to={`/detail/${post._id}`}
-                  className="block w-[50px] h-[50px] overflow-hidden"
+                  className="block w-[50px] h-[50px] overflow-hidden border shadow-md rounded  border-dotted border-[#e3e3e3]"
                 >
                   {post.cover ? (
                     <img
@@ -172,11 +171,11 @@ const UserPage = () => {
                       className="w-full h-full object-cover rounded-lg"
                     />
                   ) : (
-                    <img
-                      src="https://picsum.photos/200/300"
-                      alt="기본 이미지"
-                      className="w-full h-full object-cover rounded-lg"
-                    />
+                    <div className="w-full h-full flex items-center justify-center">
+                      <p className="text-center text-xs px-2 text-ellipsis whitespace-nowrap overflow-hidden">
+                        {post.title}
+                      </p>
+                    </div>
                   )}
                 </Link>
               </li>
