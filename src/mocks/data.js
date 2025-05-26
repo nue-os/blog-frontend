@@ -11,7 +11,7 @@ export const postsData = [
     title: '제목1',
     summary: '써머리1',
     content: '내용1',
-    author: '작성자1',
+    author: 'test',
     createdAt: '2025-05-22T00:00:00Z',
     likes: [1, 2, 3],
     commentCount: 2,
@@ -33,7 +33,7 @@ export const commentsData = [
   {
     _id: 1,
     content: '댓글1',
-    author: '작성자1',
+    author: 'test',
     postId: 1,
     createdAt: '2025-05-22T00:00:00Z',
   },

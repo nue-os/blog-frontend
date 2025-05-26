@@ -7,7 +7,7 @@ export default function PostCard({ post }) {
   return (
     <article
       className="group border-b border-dotted border-[#e3e3e3] cursor-pointer rounded-2xl overflow-hidden shadow-md transition duration-300 hover:shadow-xl"
-      onClick={() => navigate(`/detail/${post.id}`)}
+      onClick={() => navigate(`/detail/${post._id}`)}
     >
       <div className="overflow-hidden relative pt-[50%]">
         <img

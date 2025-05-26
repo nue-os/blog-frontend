@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom'
 import { formatDate } from '../utils/features'
 import { useCallback, useEffect, useState } from 'react'
 import { commentsData } from '../mocks/data'
+import useUserStore from '../store/useUserStore'
 
 export const Comments = ({ postId, onCommentCountChange }) => {
-  const username = '작성자1'
+  const { id } = useUserStore()
 
   const [newComment, setNewComment] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -41,7 +42,7 @@ export const Comments = ({ postId, onCommentCountChange }) => {
       setIsLoading(true)
       const commentData = {
         content: newComment,
-        author: username,
+        author: id,
         postId,
         _id: Date.now().toString(), // 임시 고유 ID
         createdAt: new Date().toISOString(),
@@ -114,7 +115,7 @@ export const Comments = ({ postId, onCommentCountChange }) => {
 
   const renderCommentItem = comment => {
     const isEditing = editState.id === comment._id
-    const isAuthor = username === comment.author
+    const isAuthor = id === comment.author
 
     return (
       <li key={comment._id} className="py-2 border-b border-dotted border-gray-300">
@@ -177,7 +178,7 @@ export const Comments = ({ postId, onCommentCountChange }) => {
 
   return (
     <section className="my-2">
-      {username ? (
+      {id ? (
         <form className="flex justify-between items-center gap-2 py-2" onSubmit={handleSubmit}>
           <textarea
             value={newComment}
