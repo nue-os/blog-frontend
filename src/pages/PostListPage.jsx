@@ -49,7 +49,8 @@ const PostListPage = () => {
 
   return (
     <main>
-      <h2>글 목록</h2>
+      <h2 hidden>글 목록</h2>
+      <div className="py-3"></div>
       {error && <p>{error}</p>}
       {isLoading && page === 0 ? (
         <p>로딩 중 ...</p>

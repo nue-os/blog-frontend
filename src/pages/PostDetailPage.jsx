@@ -47,11 +47,11 @@ const PostDetailPage = () => {
       <h2>{postInfo.title}</h2>
       <section>
         {postInfo.cover && (
-          <div className="overflow-hidden relative pt-[50%]">
+          <div className="overflow-hidden">
             <img
               src={`${import.meta.env.VITE_BACK_URL}/${postInfo.cover}`}
               alt={postInfo.title}
-              className="absolute top-0 w-full h-full object-cover"
+              className="w-full h-auto object-contain"
             />
           </div>
         )}
