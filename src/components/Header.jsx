@@ -6,7 +6,7 @@ import { getUserProfile, logout } from '../apis/userApi'
 const Header = () => {
   const navigate = useNavigate()
 
-  const { userId, id, setId, resetUser } = useUserStore()
+  const { userId, id, setUserId, setId, resetUser } = useUserStore()
 
   const [isMenuActive, setIsMenuActive] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
@@ -17,9 +17,14 @@ const Header = () => {
         setIsLoading(true)
         const userData = await getUserProfile()
         if (userData) {
-          setId(userData.id)
+          if (!userId && userData._id) {
+            setUserId(userData._id)
+          }
+          if (userData.id) {
+            setId(userData.id)
+          }
         } else {
-          resetUser() // ✅ userData가 없으면 reset
+          resetUser()
         }
       } catch (err) {
         console.log(err.message)
@@ -29,7 +34,7 @@ const Header = () => {
       }
     }
     getProfile()
-  }, [userId, setId, resetUser])
+  }, [userId, setUserId, setId, resetUser])
 
   const toggleMenu = () => {
     setIsMenuActive(prev => !prev)
@@ -53,7 +58,7 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       await logout()
-      resetUser(id)
+      resetUser()
       setIsMenuActive(false)
       navigate('/', { replace: true })
     } catch (err) {

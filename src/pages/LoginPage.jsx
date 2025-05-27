@@ -4,6 +4,7 @@ import { validateId, validatePassword } from '../utils/validation'
 import { login } from '../apis/userApi'
 import { useNavigate } from 'react-router-dom'
 import useUserStore from '../store/useUserStore.js'
+import KakaoLoginButton from '../components/KakaoLoginButton.jsx'
 
 const LoginPage = () => {
   const navigate = useNavigate()
@@ -84,8 +85,9 @@ const LoginPage = () => {
           {isLogining ? '로그인 중' : '로그인'}
         </button>
       </form>
-      <div className="my-4">
+      <div className="my-4 flex flex-col items-center gap-2">
         <p className="text-center cursor-pointer">소셜 계정으로 로그인</p>
+        <KakaoLoginButton />
       </div>
     </main>
   )
