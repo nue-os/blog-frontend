@@ -23,7 +23,6 @@ const Header = () => {
           if (userData.id) {
             setId(userData.id)
           }
-          console.log(userData)
         } else {
           resetUser()
         }
