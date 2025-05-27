@@ -26,6 +26,18 @@
     white-space: normal;
   }
 
+  .prose ol {
+    padding-left: 1.5em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+  .prose ol li[data-list='bullet'] {
+    list-style: disc;
+  }
+  .prose ol li[data-list='ordered'] {
+    list-style: decimal;
+  }
+
   /* Quill Editor */
   .quill-editor-container {
     width: 100%;

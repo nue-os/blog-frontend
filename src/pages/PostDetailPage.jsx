@@ -68,7 +68,7 @@ const PostDetailPage = () => {
         </div>
         <div className="bg-[#eaeaea] p-4 rounded-[1rem] italic">{postInfo.summary}</div>
         <div
-          className="p-4 break-words"
+          className="p-4 break-words prose"
           dangerouslySetInnerHTML={{
             __html: DOMPurify.sanitize(
               postInfo.content ? postInfo.content.replace(/\n/g, '<br />') : ''
