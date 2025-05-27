@@ -1,14 +1,21 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { formatDate } from '../utils/features'
 import { useEffect, useState } from 'react'
-import { getUserComments, getUserInfo, getUserLikes, getUserPosts } from '../apis/userApi'
+import {
+  deleteAccount,
+  getUserComments,
+  getUserInfo,
+  getUserLikes,
+  getUserPosts,
+} from '../apis/userApi'
 import useUserStore from '../store/useUserStore'
 
 const UserPage = () => {
   const navigate = useNavigate()
   const { username } = useParams()
 
-  const id = useUserStore(state => state.id)
+  const { id, resetUser } = useUserStore()
+
   const isCurrentUser = id === username
 
   const [userData, setUserData] = useState(null)
@@ -55,11 +62,8 @@ const UserPage = () => {
 
     try {
       setIsDeleting(true)
-      //   await deleteAccount()
-
-      // Redux 상태 초기화
-      // dispatch(setUserInfo(''))
-
+      await deleteAccount()
+      resetUser()
       alert('회원 탈퇴가 완료되었습니다.')
       navigate('/', { replace: true })
     } catch (err) {
