@@ -5,6 +5,7 @@ import LikeButton from '../components/LikeButton'
 import { Comments } from '../components/Comments'
 import { deletePost, getPostDetail } from '../apis/postApi'
 import useUserStore from '../store/useUserStore'
+import DOMPurify from 'dompurify'
 
 const PostDetailPage = () => {
   const id = useUserStore(state => state.id)
@@ -65,10 +66,14 @@ const PostDetailPage = () => {
             <span className="ml-[10px]">💬 {commentCount}</span>
           </p>
         </div>
-        <div className="bg-[#eaeaea] p-4 rounded-[1rem] italic">{postInfo?.summary}</div>
+        <div className="bg-[#eaeaea] p-4 rounded-[1rem] italic">{postInfo.summary}</div>
         <div
-          className={`p-4 ql-content`}
-          dangerouslySetInnerHTML={{ __html: postInfo?.content }}
+          className="p-4 break-words"
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(
+              postInfo.content ? postInfo.content.replace(/\n/g, '<br />') : ''
+            ),
+          }}
         ></div>
       </section>
 
