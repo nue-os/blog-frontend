@@ -91,7 +91,7 @@ const Header = () => {
         onClick={handleBackgroundClick}
       >
         <div
-          className={`absolute top-0 -right-1/2 w-1/2 h-full bg-[aliceblue] pt-20 px-4 pb-0 transition-[right] duration-300 ease-in-out z-[95] 
+          className={`absolute top-0 -right-1/2 w-1/2 h-full bg-violet-100 pt-20 px-4 pb-0 transition-[right] duration-300 ease-in-out z-[95] 
             ${isMenuActive ? 'right-0 ' : ''}`}
           onClick={handleGnbClick}
         >
