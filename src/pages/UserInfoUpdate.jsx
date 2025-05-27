@@ -73,7 +73,7 @@ const UserInfoUpdate = () => {
   }
 
   const handleCancel = () => {
-    navigate(`/user/${id}`)
+    navigate(`/userpage/${id}`)
   }
 
   if (!userId) return null // 로그인 상태가 아니면 아무것도 렌더링하지 않음
